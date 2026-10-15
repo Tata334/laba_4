@@ -33,53 +33,64 @@ void PrintFilm(const Film& f)
 int main()
 {
     setlocale(LC_ALL, "ru");
+     
+    cout << "=== Раннее связывание (по одному объекту каждого класса) ===\n";
 
-    cout << "=== 1. Film ===\n";
-    Film film("Бойцовский клуб", "Триллер", 1999, 8.7, false);
-    PrintFilm(film);
-    film.Watch();
-    cout << "\n";
+    
 
-    cout << "=== 2. FeatureFilm ===\n";
     FeatureFilm ff("Начало", "Фантастика", 2010, 8.8, false, "К. Нолан");
     PrintFilm(ff);
     ff.Watch();
     cout << "\n";
 
-
-    cout << "=== 3. Series ===\n";
     Series s("Уэнтворт", "Драма", 2013, 8.6, false,
         "Кевин Карлин", 8, 100);
     PrintFilm(s);
     s.Watch();
     cout << "\n";
 
-    cout << "=== 4. Documentary ===\n";
     Documentary d("Майкл Джексон: Вот и всё", "Документальный",
         2009, 7.8, false,
         "Репетиции тура This Is It");
     PrintFilm(d);
     d.Watch();
     cout << "\n";
+     
+    cout << "=== Позднее связывание: выберите объект ===\n";
+    cout << "1 - FeatureFilm\n";
+    cout << "2 - Series\n";
+    cout << "3 - Documentary\n";
+    cout << "Ваш выбор: ";
 
-    cout << "=== 5. Полиморфизм (vector<Film*>) ===\n";
-    vector<Film*> all;
-    all.push_back(new Film("Титаник", "Драма", 1997, 7.9, false));
-    all.push_back(new FeatureFilm("Аватар", "Фантастика",
-        2009, 7.9, false, "Джеймс Кэмерон"));
-    all.push_back(new Series("Уэнтворт", "Драма", 2013, 8.6, false,
-        "Кевин Карлин", 8, 80));
-    all.push_back(new Documentary("Майкл Джексон: Вот и всё",
-        "Документальный", 2009, 7.3, false,
-        "Репетиции тура This Is It"));
+    int choice;
+    cin >> choice;
 
-    for (Film* p : all) {
-        PrintFilm(*p);
-        p->Watch();     
-        cout << "\n";
+    Film* poly = nullptr;   
+
+    switch (choice) {
+    case 1:
+        poly = new FeatureFilm("Аватар", "Фантастика",
+            2009, 7.9, false, "Джеймс Кэмерон");
+        break;
+    case 2:
+        poly = new Series("Уэнтворт", "Драма", 2013, 8.6, false,
+            "Кевин Карлин", 8, 80);
+        break;
+    case 3:
+        poly = new Documentary("Майкл Джексон: Вот и всё",
+            "Документальный", 2009, 7.3, false,
+            "Репетиции тура This Is It");
+        break;
+    default:
+        cout << "Неверный выбор. Создан FeatureFilm по умолчанию.\n";
+        poly = new FeatureFilm();
+        break;
     }
+     
+    PrintFilm(*poly);
+    poly->Watch();           
 
-    for (Film* p : all) delete p;
+    delete poly;             
 
     return 0;
 }

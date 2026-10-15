@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 class Film
@@ -18,17 +18,18 @@ private:
     bool Init(const std::string& t, const std::string& g,
         int y, double r, bool w);
 
-public:
+protected:
     Film();
     Film(const std::string& t, const std::string& g,
         int y, double r, bool w);
 
+public:
     Film(const Film& other);
     Film& operator=(const Film& other);
 
     virtual ~Film();                 
 
-    virtual void Watch();           
+    virtual void Watch() = 0;           
 
     void SetTitle(const std::string& value);
     void SetGenre(const std::string& value);
